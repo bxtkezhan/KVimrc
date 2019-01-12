@@ -19,6 +19,9 @@ set showmatch		" 括号匹配跳转
 "-NASM 高亮
 au BufNewFile,BufRead *.asm set filetype=nasm
 
+"-Python 高亮
+let g:python_highlight_all = 1
+
 "-C 族缩进
 au BufNewFile,BufRead *.c,*.cpp,*.java,*.ino,*.pl,*.php,*.js,*.css set cindent
 
@@ -41,6 +44,9 @@ let mapleader=","
 map <Leader>pr :!python3 %<cr>
 map <Leader>p2r :!python2 %<cr>
 map <Leader>p3r :!python3 %<cr>
+map <Leader>py :!python3<cr>
+map <Leader>p3y :!python3<cr>
+map <Leader>p2y :!python2<cr>
 
 "拓展优化.
 
@@ -57,17 +63,17 @@ map <Leader>nt :NERDTreeToggle<cr>
 " let g:ycm_show_diagnostics_ui = 0
 let g:ycm_python_binary_path = '/usr/bin/python3'
 
-"-VimSay 设置
-let g:vs_client_id = 'Your client id'
-let g:vs_client_secret = 'Your client secret'
-let g:vs_cuid = 'Your cuid'
-let g:vs_lan = 'zh' " Set to zh
-let g:vs_ctp =  1	" Default 1
-let g:vs_spd =  5	" Default 5
-let g:vs_pit =  5	" Default 5
-let g:vs_vol =  9	" Default 9
-map <Leader>mc :VSC<cr>
-map <Leader>mr :VSR<cr>
+" "-VimSay 设置
+" let g:vs_client_id = 'Your client id'
+" let g:vs_client_secret = 'Your client secret'
+" let g:vs_cuid = 'Your cuid'
+" let g:vs_lan = 'zh' " Set to zh
+" let g:vs_ctp =  1	" Default 1
+" let g:vs_spd =  5	" Default 5
+" let g:vs_pit =  5	" Default 5
+" let g:vs_vol =  9	" Default 9
+" map <Leader>mc :VSC<cr>
+" map <Leader>mr :VSR<cr>
 
 "-VundleVim
 set nocompatible " be iMproved, required
@@ -83,6 +89,11 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/nerdtree'
+Plugin 'robertbasic/vim-hugo-helper'
+Plugin 'JuliaEditorSupport/julia-vim'
+Plugin 'vim-python/python-syntax'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'scrooloose/nerdcommenter'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
