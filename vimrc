@@ -1,104 +1,128 @@
-"编辑风格.
+" Common style
 
-set number			" 显示行号 
-set nocompatible	" 去掉vi一致性模式，避免旧版本bug
-set autoindent		" 自动缩进
-" set expandtab     " 缩进转空格
-set tabstop=4		" Tab键的宽度
-set softtabstop=4	" |
-set shiftwidth=4	" 统一缩进为4
-set nowrap			" 设置取消自动换行
-set cursorline		" 高亮当前行 
-set incsearch		" 设置增量查找
-" set ignorecase	" 设置忽略大小写搜索
-set showmatch		" 括号匹配跳转
-"set mouse=a         " 开启鼠标
+set number			" show number of line
+set nocompatible	" remove old vi config
+set autoindent		" auto indent
+" set expandtab     " 
+set tabstop=4		" set tab width
+set softtabstop=4	" set tab width
+set shiftwidth=4	" set tab width
+set nowrap			" default nowrap
+set cursorline		" highlight current line
+set incsearch		" set inc search
+" set ignorecase	" search ignore case
+set showmatch		" show match [/(/{ ...
+" set mouse=a         " enable mouse
+set t_Co=256		" use color256
+set background=dark " background color is dark
+set nohlsearch      " no highlight search
 
-"代码风格.
+" Code style
 
-"-NASM 高亮
+" Set nasm type
 au BufNewFile,BufRead *.asm set filetype=nasm
 
-"-Python 高亮
-let g:python_highlight_all = 1
+" Python highlight
+" let g:python_highlight_all = 1
 
-"-C 族缩进
+" C* indent
 au BufNewFile,BufRead *.c,*.cpp,*.java,*.ino,*.pl,*.php,*.js,*.css set cindent
 
-"-Python Tab转空格
-au BufNewFile,BufRead *.py,*.vim set expandtab
+" Convert tab to space
+au BufNewFile,BufRead *.py,*.vim,*.ey set expandtab
 
-"-TEXT 自动换行
+" Auto wrap for markdown, text
 au BufNewFile,BufRead *.md,*.txt set wrap
 
-"-高亮行列配置
+" Json indent
+function JsonShift()
+	let g:indentLine_setConceal = 0
+	set tabstop=2
+	set softtabstop=2
+	set shiftwidth=2
+	set expandtab
+endfunction
+au BufNewFile,BufRead *.json call JsonShift()
+
+" Highlight current line or column
 hi CursorLine cterm=NONE ctermbg=Black guifg=NONE guibg=NONE
 " hi CursorColumn cterm=NONE ctermbg=Black guifg=NONE guibg=NONE
 
-" 插件相关配置.
-
-"设置 Leader 参量.
+" Set Leader key
 let mapleader=","
 
-"-Python 运行
+" Run python
 map <Leader>pr :!python3 %<cr>
 map <Leader>p2r :!python2 %<cr>
-map <Leader>p3r :!python3 %<cr>
-map <Leader>py :!python3<cr>
-map <Leader>p3y :!python3<cr>
-map <Leader>p2y :!python2<cr>
 
-"拓展优化.
-
-"-退出插入模式，关闭提示栏目
-au InsertLeave * if pumvisible() == 0|pclose|endif
-
-"-Tagbar，NERDTree 快捷键
-map <Leader>tb :TagbarToggle<cr>
-map <Leader>nt :NERDTreeToggle<cr>
-
-"-syntastic 设置
-" let g:syntastic_error_symbol = "✗"
-" let g:syntastic_warning_symbol = "⚠"
-" let g:ycm_show_diagnostics_ui = 0
-let g:ycm_python_binary_path = '/usr/bin/python3'
-
-" "-VimSay 设置
-" let g:vs_client_id = 'Your client id'
-" let g:vs_client_secret = 'Your client secret'
-" let g:vs_cuid = 'Your cuid'
-" let g:vs_lan = 'zh' " Set to zh
-" let g:vs_ctp =  1	" Default 1
-" let g:vs_spd =  5	" Default 5
-" let g:vs_pit =  5	" Default 5
-" let g:vs_vol =  9	" Default 9
-" map <Leader>mc :VSC<cr>
-" map <Leader>mr :VSR<cr>
-
-"-VundleVim
-set nocompatible " be iMproved, required
-filetype off     " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'majutsushi/tagbar'
-Plugin 'scrooloose/nerdtree'
-Plugin 'robertbasic/vim-hugo-helper'
-Plugin 'JuliaEditorSupport/julia-vim'
-Plugin 'vim-python/python-syntax'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'scrooloose/nerdcommenter'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" yapf, html5-print
+" Run yapf to format python code
 map <Leader>yp :%!yapf<cr>
-map <Leader>hp :%!html5-print -s4 %<cr>
+
+" Open right terminal
+map <Leader>vt :rightbelow vsplit<cr>:terminal ++curwin<cr>
+
+" Plugin config
+
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes
+
+Plug 'morhetz/gruvbox'
+
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+
+Plug 'jiangmiao/auto-pairs'
+
+Plug 'jpalardy/vim-slime'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+Plug 'tpope/vim-surround'
+
+Plug 'tomtom/tcomment_vim'
+
+Plug 'airblade/vim-gitgutter'
+
+Plug 'ycm-core/YouCompleteMe'
+
+Plug 'Yggdroot/indentLine'
+
+Plug 'Chiel92/vim-autoformat'
+
+" Initialize plugin system
+call plug#end()
+
+" Set vim color theme
+colorscheme gruvbox
+
+" Set nerdtree hotkey
+map <C-n> :NERDTreeToggle<cr>
+
+" Vim-Slime
+let g:slime_target = "screen"
+let g:slime_python_ipython = 1
+let g:slime_paste_file = tempname()
+let g:slime_default_config = {"sessionname": "si", "windowname": "0"}
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+
+" Set git-gutter update time
+set updatetime=100
+
+" Set indent line character
+let g:indentLine_char = '█'
+
+" YouCompleteMe config
+let g:ycm_autoclose_preview_window_after_insertion=1
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
