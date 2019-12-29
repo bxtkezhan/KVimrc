@@ -5,8 +5,13 @@ set fileformats=unix,dos
 set termencoding=utf-8
 set formatoptions+=B
 
-" Common style
+" Config gui mode
+set guifont=Hack\ 12
+set guioptions-=m
+set guioptions-=T
+set guioptions-=r
 
+" Common style
 set number			" show number of line
 set nocompatible	" remove old vi config
 set autoindent		" auto indent
@@ -25,7 +30,6 @@ set showmatch		" show match [/(/{ ...
 set t_Co=256		" use color256
 set background=dark" background color is dark
 set nohlsearch      " no highlight search
-" set laststatus=2	" set position of the status bar
 
 " File type config
 filetype on
@@ -53,7 +57,7 @@ au FileType markdown,text set wrap
 
 " Json indent
 function JsonShift()
-	let g:indentLine_setConceal = 0
+	" let g:indentLine_setConceal = 0
 	set tabstop=2
 	set softtabstop=2
 	set shiftwidth=2
@@ -113,8 +117,9 @@ Plug 'Chiel92/vim-autoformat'
 
 Plug 'majutsushi/tagbar'
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" Plug 'powerline/powerline'
 
 " Initialize plugin system
 call plug#end()
@@ -168,13 +173,11 @@ let g:ycm_filetype_whitelist = {
     \'python': 1,
     \'cylang': 1,
     \'markdown': 1,
+    \'json': 1,
+    \'sh': 1,
     \'vim': 1,
     \}
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
 
-" Airline config
-let g:airline#extensions#tabline#enabled = 1
-
-" Tab hotkey
-map <Leader>te :tabedit<cr>:NERDTreeToggle<cr>
-map <Leader>tc :tabclose<cr>
+" Powerline config
+set laststatus=2
