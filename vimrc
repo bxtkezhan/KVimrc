@@ -44,7 +44,7 @@ au BufNewFile,BufRead *.cy set filetype=cylang
 au BufNewFile,BufRead *.txt set filetype=text
 
 " Python highlight
-" let g:python_highlight_all = 1
+" let g:python_highlight_all=1
 
 " C* indent
 au FileType c,cpp,java,javascript,css set cindent
@@ -57,7 +57,7 @@ au FileType markdown,text set wrap
 
 " Json indent
 function JsonShift()
-	" let g:indentLine_setConceal = 0
+	" let g:indentLine_setConceal=0
 	set tabstop=2
 	set softtabstop=2
 	set shiftwidth=2
@@ -117,9 +117,9 @@ Plug 'Chiel92/vim-autoformat'
 
 Plug 'majutsushi/tagbar'
 
-Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'vim-syntastic/syntastic'
 
-" Plug 'powerline/powerline'
+Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 " Initialize plugin system
 call plug#end()
@@ -135,10 +135,10 @@ let NERDTreeQuitOnOpen=1
 map <C-t> :TagbarToggle<cr>
 
 " Vim-Slime
-let g:slime_target = "screen"
-let g:slime_python_ipython = 1
-let g:slime_paste_file = tempname()
-let g:slime_default_config = {"sessionname": "si", "windowname": "0"}
+let g:slime_target="screen"
+let g:slime_python_ipython=1
+let g:slime_paste_file=tempname()
+let g:slime_default_config={"sessionname": "si", "windowname": "0"}
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<Tab>"
@@ -149,20 +149,20 @@ let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 set updatetime=100
 
 " Set indent line character
-let g:indentLine_char = '█'
+let g:indentLine_char='█'
 
 " YouCompleteMe config
-let g:ycm_add_preview_to_completeopt = 0
+let g:ycm_add_preview_to_completeopt=0
 set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_insertion=1
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-" let g:ycm_error_symbol = '✗'
-let g:ycm_error_symbol = '🤣'
-" let g:ycm_warning_symbol = '⚠'
-let g:ycm_warning_symbol = '🤔'
-let g:ycm_filetype_whitelist = {
+let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
+let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+" let g:ycm_error_symbol='✗'
+let g:ycm_error_symbol='🤣'
+" let g:ycm_warning_symbol='⚠'
+let g:ycm_warning_symbol='🤔'
+let g:ycm_filetype_whitelist={
     \'nasm': 1,
     \'c': 1,
     \'cpp': 1,
@@ -178,6 +178,14 @@ let g:ycm_filetype_whitelist = {
     \'vim': 1,
     \}
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
+
+" Syntastic checker
+let g:syntastic_python_checkers=['flake8']
+let g:syntastic_error_symbol='🤣'
+let g:syntastic_warning_symbol='🤔'
+let g:syntastic_quiet_messages={ "type": "style" }
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " Powerline config
 set laststatus=2
