@@ -29,7 +29,7 @@ set showmatch		" show match [/(/{ ...
 " set mouse=a         " enable mouse
 set t_Co=256		" use color256
 set background=dark" background color is dark
-set nohlsearch      " no highlight search
+" set nohlsearch      " no highlight search
 
 " File type config
 filetype on
@@ -53,7 +53,7 @@ au FileType c,cpp,java,javascript,css set cindent
 au FileType nasm,c,cpp,java,html,css,javascript,python,vim,cylang set expandtab
 
 " Auto wrap for markdown, text
-au FileType markdown,text set wrap
+au FileType markdown set wrap
 
 " Json indent
 function JsonShift()
@@ -121,6 +121,15 @@ Plug 'vim-syntastic/syntastic'
 
 Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
+Plug 'lfv89/vim-interestingwords'
+
+Plug 'itchyny/vim-cursorword'
+
+Plug 'iamcco/mathjax-support-for-mkdp'
+Plug 'iamcco/markdown-preview.vim'
+
+" Plug 'calviken/vim-gdscript3'
+
 " Initialize plugin system
 call plug#end()
 
@@ -136,9 +145,11 @@ map <C-t> :TagbarToggle<cr>
 
 " Vim-Slime
 let g:slime_target="screen"
-let g:slime_python_ipython=1
+let g:slime_python_ipython=0
 let g:slime_paste_file=tempname()
-let g:slime_default_config={"sessionname": "si", "windowname": "0"}
+let g:slime_default_config={"sessionname": "s0", "windowname": "0"}
+au FileType python let g:slime_python_ipython=1
+au FileType python let g:slime_default_config['sessionname']='sp'
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<Tab>"
@@ -150,6 +161,7 @@ set updatetime=100
 
 " Set indent line character
 let g:indentLine_char='█'
+au FileType markdown,json :IndentLinesDisable
 
 " YouCompleteMe config
 let g:ycm_add_preview_to_completeopt=0
