@@ -5,8 +5,11 @@ set fileformats=unix,dos
 set termencoding=utf-8
 set formatoptions+=B
 
+let &t_TI = ""
+let &t_TE = ""
+
 " Config gui mode
-set guifont=Hack\ 12
+set guifont=Hack\ 11
 set guioptions-=m
 set guioptions-=T
 set guioptions-=r
@@ -42,12 +45,15 @@ filetype indent on
 au BufNewFile,BufRead *.asm set filetype=nasm
 au BufNewFile,BufRead *.cy set filetype=cylang
 au BufNewFile,BufRead *.txt set filetype=text
+au BufNewFile,BufRead *.kv set filetype=kivy
+au BufNewFile,BufRead *.desktop set filetype=desktop
+au BufNewFile,BufRead *.hx set filetype=haxe
 
 " Python highlight
 " let g:python_highlight_all=1
 
 " C* indent
-au FileType c,cpp,java,javascript,css set cindent
+au FileType c,cpp,java,javascript,css,haxe set cindent
 
 " Convert tab to space
 au FileType nasm,c,cpp,java,html,css,javascript,python,vim,cylang set expandtab
@@ -81,6 +87,9 @@ map <Leader>yp :%!yapf<cr>
 
 " Open right terminal
 map <Leader>vt :rightbelow vsplit<cr>:terminal ++curwin<cr>
+
+" Set Esc
+imap <C-L> <Esc>
 
 " Plugin config
 
@@ -119,7 +128,7 @@ Plug 'majutsushi/tagbar'
 
 Plug 'vim-syntastic/syntastic'
 
-Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+" Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
 Plug 'lfv89/vim-interestingwords'
 
@@ -127,6 +136,13 @@ Plug 'itchyny/vim-cursorword'
 
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'iamcco/markdown-preview.vim'
+
+Plug 'junegunn/vim-easy-align'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'jdonaldson/vaxe'
 
 " Plug 'calviken/vim-gdscript3'
 
@@ -188,6 +204,9 @@ let g:ycm_filetype_whitelist={
     \'json': 1,
     \'sh': 1,
     \'vim': 1,
+    \'kivy': 1,
+    \'desktop': 1,
+    \'haxe': 1,
     \}
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
 
@@ -200,4 +219,10 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 " Powerline config
-set laststatus=2
+" set laststatus=2
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
