@@ -25,13 +25,13 @@ set softtabstop=4	" set tab width
 set shiftwidth=4	" set tab width
 set nowrap			" default nowrap
 set cursorline		" highlight current line
-" set cursorcolumn	" highlight current column
+set cursorcolumn	" highlight current column
 set incsearch		" set inc search
 " set ignorecase	" search ignore case
 set showmatch		" show match [/(/{ ...
 " set mouse=a         " enable mouse
 set t_Co=256		" use color256
-set background=dark" background color is dark
+set background=dark " background color is dark
 " set nohlsearch      " no highlight search
 
 " File type config
@@ -48,6 +48,7 @@ au BufNewFile,BufRead *.txt set filetype=text
 au BufNewFile,BufRead *.kv set filetype=kivy
 au BufNewFile,BufRead *.desktop set filetype=desktop
 au BufNewFile,BufRead *.hx set filetype=haxe
+au BufNewFile,BufRead *.go set filetype=go
 
 " Python highlight
 " let g:python_highlight_all=1
@@ -56,10 +57,10 @@ au BufNewFile,BufRead *.hx set filetype=haxe
 au FileType c,cpp,java,javascript,css,haxe set cindent
 
 " Convert tab to space
-au FileType nasm,c,cpp,java,html,css,javascript,python,vim,cylang set expandtab
+au FileType nasm,c,cpp,java,html,css,javascript,python,go,rust,vim,cylang set expandtab
 
 " Auto wrap for markdown, text
-au FileType markdown set wrap
+au FileType text,markdown set wrap
 
 " Json indent
 function JsonShift()
@@ -75,15 +76,27 @@ au FileType json call JsonShift()
 hi CursorLine cterm=NONE ctermbg=Black guifg=NONE guibg=NONE
 hi CursorColumn cterm=NONE ctermbg=Black guifg=NONE guibg=NONE
 
-" Set Leader key
+" Set fold
+set foldmethod=manual
+au BufWinLeave *.* mkview
+au BufWinEnter *.* silent loadview
+
+" Set leader key
 let mapleader=","
+
+" Run golang
+map <Leader>gr :!go run %<cr>
+map <Leader>gR :!go build -o a.out % && ./a.out <cr>
 
 " Run python
 map <Leader>pr :!python3 %<cr>
 map <Leader>p2r :!python2 %<cr>
 
 " Run yapf to format python code
-map <Leader>yp :%!yapf<cr>
+map <Leader>yp :%!yapf3<cr>
+
+" Play alda
+map <Leader>ap :!alda play -f %<cr>
 
 " Open right terminal
 map <Leader>vt :rightbelow vsplit<cr>:terminal ++curwin<cr>
@@ -120,6 +133,8 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'ycm-core/YouCompleteMe'
 
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 Plug 'Yggdroot/indentLine'
 
 Plug 'Chiel92/vim-autoformat'
@@ -142,7 +157,15 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-Plug 'jdonaldson/vaxe'
+Plug 'ryanoasis/vim-devicons'
+
+Plug 'jceb/vim-orgmode'
+
+Plug 'tpope/vim-speeddating'
+
+Plug 'daveyarwood/vim-alda'
+
+" Plug 'jdonaldson/vaxe'
 
 " Plug 'calviken/vim-gdscript3'
 
@@ -177,7 +200,7 @@ set updatetime=100
 
 " Set indent line character
 let g:indentLine_char='█'
-au FileType markdown,json :IndentLinesDisable
+au FileType text,markdown,json :IndentLinesDisable
 
 " YouCompleteMe config
 let g:ycm_add_preview_to_completeopt=0
@@ -185,15 +208,15 @@ set completeopt-=preview
 let g:ycm_autoclose_preview_window_after_insertion=1
 let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-" let g:ycm_error_symbol='✗'
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 let g:ycm_error_symbol='🤣'
-" let g:ycm_warning_symbol='⚠'
 let g:ycm_warning_symbol='🤔'
 let g:ycm_filetype_whitelist={
     \'nasm': 1,
     \'c': 1,
     \'cpp': 1,
+    \'go': 1,
+    \'rust': 1,
     \'java': 1,
     \'html': 1,
     \'css': 1,
@@ -202,13 +225,23 @@ let g:ycm_filetype_whitelist={
     \'cylang': 1,
     \'markdown': 1,
     \'json': 1,
+    \'yaml': 1,
     \'sh': 1,
     \'vim': 1,
     \'kivy': 1,
+    \'alda': 1,
     \'desktop': 1,
-    \'haxe': 1,
     \}
+
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
+
+augroup YCMSyntax
+  autocmd!
+  autocmd FileType c,cpp,go,python,javascript let b:ycm_hover = {
+    \ 'command': 'GetDoc',
+    \ 'syntax': &filetype
+    \ }
+augroup END
 
 " Syntastic checker
 let g:syntastic_python_checkers=['flake8']

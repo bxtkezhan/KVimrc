@@ -29,7 +29,6 @@
 # For more information, please refer to <http://unlicense.org/>
 
 from distutils.sysconfig import get_python_inc
-# import os
 import platform
 import os.path as p
 import subprocess
@@ -56,12 +55,15 @@ flags = [
 # only the YCM source code needs it.
 '-DUSE_CLANG_COMPLETER',
 '-DYCM_EXPORT=',
+'-DYCM_ABSEIL_SUPPORTED',
 # THIS IS IMPORTANT! Without the '-x' flag, Clang won't know which language to
 # use when compiling headers. So it will guess. Badly. So C++ headers will be
 # compiled as C headers. You don't want that so ALWAYS specify the '-x' flag.
 # For a C project, you would set this to 'c' instead of 'c++'.
 '-x',
 'c++',
+'-isystem',
+'cpp/absl',
 '-isystem',
 'cpp/pybind11',
 '-isystem',
@@ -79,15 +81,12 @@ get_python_inc(),
 '-I',
 'cpp/ycm/ClangCompleter',
 '-isystem',
-'cpp/ycm/tests/gmock/gtest',
+'cpp/ycm/tests/gmock/googlemock/include',
 '-isystem',
-'cpp/ycm/tests/gmock/gtest/include',
-'-isystem',
-'cpp/ycm/tests/gmock',
-'-isystem',
-'cpp/ycm/tests/gmock/include',
+'cpp/ycm/tests/gmock/googletest/include',
 '-isystem',
 'cpp/ycm/benchmarks/benchmark/include',
+'-std=c++17',
 ]
 
 # Extend by kk
@@ -148,15 +147,15 @@ flags.extend([
 '/usr/include/freetype2',
 '-I',
 '/usr/include/atkmm-1.6',
+'-I',
+'/usr/include/webkitgtk-4.0',
+'-I',
+'/usr/include/gtksourceview-3.0',
+'-I',
+'/usr/include/libsoup-2.4',
+'-I',
+'/usr/lib/gcc/x86_64-linux-gnu/9/include',
 ])
-
-
-# Clang automatically sets the '-std=' flag to 'c++14' for MSVC 2015 or later,
-# which is required for compiling the standard library, and to 'c++11' for older
-# versions.
-if platform.system() != 'Windows':
-  flags.append( '-std=c++14' )
-
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
 # compile_commands.json file to use that instead of 'flags'. See here for
@@ -264,21 +263,10 @@ def PythonSysPath( **kwargs ):
 
   sys_path[ 0:0 ] = [ p.join( DIR_OF_THIS_SCRIPT ),
                       p.join( DIR_OF_THIRD_PARTY, 'bottle' ),
-                      p.join( DIR_OF_THIRD_PARTY, 'cregex',
-                              'regex_{}'.format( major_version ) ),
+                      p.join( DIR_OF_THIRD_PARTY, 'regex-build' ),
                       p.join( DIR_OF_THIRD_PARTY, 'frozendict' ),
                       p.join( DIR_OF_THIRD_PARTY, 'jedi_deps', 'jedi' ),
                       p.join( DIR_OF_THIRD_PARTY, 'jedi_deps', 'parso' ),
-                      p.join( DIR_OF_THIRD_PARTY, 'requests_deps', 'requests' ),
-                      p.join( DIR_OF_THIRD_PARTY, 'requests_deps',
-                                                  'urllib3',
-                                                  'src' ),
-                      p.join( DIR_OF_THIRD_PARTY, 'requests_deps',
-                                                  'chardet' ),
-                      p.join( DIR_OF_THIRD_PARTY, 'requests_deps',
-                                                  'certifi' ),
-                      p.join( DIR_OF_THIRD_PARTY, 'requests_deps',
-                                                  'idna' ),
                       p.join( DIR_OF_WATCHDOG_DEPS, 'watchdog', 'build', 'lib3' ),
                       p.join( DIR_OF_WATCHDOG_DEPS, 'pathtools' ),
                       p.join( DIR_OF_THIRD_PARTY, 'waitress' ) ]
