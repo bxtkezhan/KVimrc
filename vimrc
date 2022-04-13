@@ -85,8 +85,8 @@ au BufWinEnter *.* silent loadview
 let mapleader=","
 
 " Run golang
-map <Leader>gr :!go run %<cr>
-map <Leader>gR :!go build -o a.out % && ./a.out <cr>
+map <Leader>gr :!go run *.go<cr>
+map <Leader>gR :!go build -o a.out *.go && ./a.out <cr>
 
 " Run python
 map <Leader>pr :!python3 %<cr>
@@ -98,7 +98,12 @@ map <Leader>yp :%!yapf3<cr>
 " Play alda
 map <Leader>ap :!alda play -f %<cr>
 
-" Open right terminal
+" Open window
+map <Leader>hs :rightbelow split<cr>
+map <Leader>vs :rightbelow vsplit<cr>
+
+" Open terminal
+map <Leader>ht :rightbelow split<cr>:terminal ++curwin<cr>
 map <Leader>vt :rightbelow vsplit<cr>:terminal ++curwin<cr>
 
 " Set Esc
@@ -234,6 +239,10 @@ let g:ycm_filetype_whitelist={
     \}
 
 nnoremap <leader>jd :YcmCompleter GoTo<cr>
+nnoremap <leader>jr :YcmCompleter GoToReferences<cr>
+
+nmap <leader>gd <plug>(YCMHover)
+let g:ycm_auto_hover=''
 
 augroup YCMSyntax
   autocmd!
